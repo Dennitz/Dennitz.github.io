@@ -1,17 +1,17 @@
 # Site settings
-title:          Tale
-description:    "Minimal Jekyll theme for storytellers"
-baseurl:        "/tale"
-url:            "https://chesterhow.github.io"
+title:          Dennis Hellweg
+description:    "Personal blog of Dennis Hellweg"
+# baseurl:        "/tale"
+url:            "https://dennitz.github.io"
 
 # Google Analytics
-google_analytics: UA—XXXXXXXX-X
+# google_analytics: UA—XXXXXXXX-X
 
 # Author
 author:
-  name:         Chester How
-  url:          https://chester.how
-  email:        chesterhow@gmail.com
+  name:         Dennis Hellweg
+  url:          https://dennishellweg.com
+  email:        mail@dennishellweg.com
 
 # Build settings
 markdown:       kramdown
