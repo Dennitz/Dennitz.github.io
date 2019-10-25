@@ -1,0 +1,47 @@
+.projects .project:not(:last-child) {
+  // border-bottom: 1px solid #e5e5e5;
+  // padding-bottom: 3rem;
+  margin-bottom: 5rem;
+}
+
+.project {
+  overflow: auto;
+  // padding-top: 3rem;
+
+  p {
+    text-align: left;
+  }
+
+  .project-image {
+    overflow: auto;
+    width: 300px;
+    margin-right: 1.5rem;
+    float: left;
+  }
+
+  img {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: calc(0.25rem - 1px);
+  }
+}
+
+@media (max-width: 600px) {
+  .project {
+    overflow: visible;
+    .project-image {
+      width: 100%;
+      float: none;
+      margin-bottom: 1.5rem;
+    }
+
+    img {
+      margin: auto;
+      display: block;
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+}

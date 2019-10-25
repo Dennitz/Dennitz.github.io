@@ -85,7 +85,12 @@ footer {
   padding: 2rem 0;
   text-align: center;
 
-  span {
+  .workwithme {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .copyright {
     color: $default-color;
     font-size: .8rem;
   }
