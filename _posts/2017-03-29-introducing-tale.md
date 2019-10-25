@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Introducing Tale"
+title:  "Introducing Tale Ein GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANY langes Wort"
 author: "Chester"
 comments: true
 ---
@@ -16,7 +16,7 @@ Tale is a minimal [Jekyll](https://jekyllrb.com/) theme curated for storytellers
 
 Head over to the [Example Content]({{ site.baseurl }}/2017-03-16/example-content) post for a showcase of Tale's text formatting features.
 
-## Browser Support
+## Browser Support Introducing Introduction Test
 Tale works on most if not all modern browsers, including Chrome, Safari and Firefox 👍🏼
 
 ## Download or Contribute
