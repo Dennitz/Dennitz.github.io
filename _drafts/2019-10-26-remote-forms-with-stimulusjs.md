@@ -4,10 +4,8 @@ title:  "Remote Forms with Stimulus.js"
 author: "Dennis Hellweg"
 comments: true
 ---
-<!-- ![result video](/assets/remoteformsstimulusresult.mp4) -->
 
-<video autoplay loop muted playsinline controls onclick="this.play()" style="width: 80%">
-  <!-- <source src="/assets/remoteformsstimulusresult.mp4" type="video/webm">   -->
+<video autoplay loop muted playsinline controls class="video-w80">
   <source src="/assets/remoteformsstimulusresult.mp4" type="video/mp4">
 </video>
 

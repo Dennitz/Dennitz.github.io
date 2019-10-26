@@ -68,3 +68,20 @@ img {
 td {
   vertical-align: top;
 }
+
+video {
+  max-width: 100%;
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+
+  &.shadow {
+    box-shadow: 0 2px 4px 0 hsla(0, 0, 0, 0.08);
+  }
+}
+
+.video-w80 {
+  @media (min-width: 600px) {
+    width: 80%;
+  }
+}
