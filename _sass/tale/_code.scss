@@ -7,8 +7,8 @@ code {
   background-color: $grey-3;
   border-radius: 3px;
   color: $code-color;
-  font-size: .85rem;
-  padding: .25em .5em;
+  font-size: 0.85rem;
+  padding: 0.25em 0.5em;
 }
 
 pre {
@@ -18,16 +18,23 @@ pre {
 pre code {
   background-color: transparent;
   color: inherit;
-  font-size: .85rem;
+  font-size: 0.7rem;
   padding: 0;
 }
 
 .highlight {
-  background-color: $grey-3;
-  border-radius: 3px;
+  border-top: 1px solid $grey-2;
+  border-left: 1px solid $grey-2;
+  border-right: 1px solid $grey-2;
+  // background-color: $grey-3;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
   line-height: 1.4;
   margin: 0 0 1rem;
-  padding: 1rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 10px;
+  padding-right: 10px;
 
   pre {
     margin-bottom: 0;
@@ -37,10 +44,24 @@ pre code {
   .lineno {
     color: $default-tint;
     display: inline-block; // Ensures the null space also isn't selectable
-    padding: 0 .75rem 0 .25rem;
+    padding: 0 0.75rem 0 0.25rem;
     // Make sure numbers aren't selectable
     -webkit-user-select: none;
-       -moz-user-select: none;
-            user-select: none;
+    -moz-user-select: none;
+    user-select: none;
   }
+}
+
+.filename {
+  font-family: Menlo,Monaco,monospace;
+  font-size: 0.7rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 16px;
+  padding-right: 10px;
+  margin: -1rem 0 0 0 !important;
+  background-color: #f9f9f9;
+  border: 1px solid $grey-2;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }

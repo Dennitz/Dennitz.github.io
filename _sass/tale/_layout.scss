@@ -24,15 +24,15 @@ footer,
   }
 
   &-title {
-    @include transition(all .2s ease-out);
+    @include transition(all 0.2s ease-out);
     color: $default-color;
     display: inline-block;
     margin: 0;
-    padding-right: .2rem;
+    padding-right: 0.2rem;
 
     &:hover,
     &:focus {
-      opacity: .6;
+      opacity: 0.6;
     }
   }
 
@@ -44,10 +44,10 @@ footer,
   }
 
   li {
-    @include transition(all .2s ease-out);
+    @include transition(all 0.2s ease-out);
     color: $default-color;
     display: inline-block;
-    opacity: .6;
+    opacity: 0.6;
     padding: 0 2rem 0 0;
 
     &:last-child {
@@ -81,6 +81,7 @@ footer,
 }
 
 footer {
+  color: $faded-color;
   font-family: $serif-secondary;
   padding: 2rem 0;
   text-align: center;
@@ -91,7 +92,7 @@ footer {
   }
 
   .copyright {
-    color: $default-color;
-    font-size: .8rem;
+    // color: $default-color;
+    font-size: 0.8rem;
   }
 }
