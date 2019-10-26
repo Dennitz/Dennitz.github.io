@@ -15,7 +15,7 @@ permalink: /projects/
         <a href="https://spotmatters.co">spotmatters.co</a> is an easy way to find surfspots that are suitable when travelling in a van. 
       </p>
       <p>
-        I built the site in Ruby on Rails and created all the content.
+        I created all the content and built the site in Ruby on Rails using Bootstrap for styling. The site is deployed on Heroku.
       </p>
     </div>
   </div>
@@ -25,7 +25,7 @@ permalink: /projects/
     </div>
     <div class="project-description">
       <p>
-        A <a href="https://github.com/Dennitz/Timetable">timetable app</a> where I did all the design work and created all the css from scratch. I built the app with React Native and Redux.
+        A <a href="https://github.com/Dennitz/Timetable">timetable app</a> where I did all the design work and created all the CSS from scratch. I built the app with React Native and Redux.
       </p>
       <p>
       The app was downloaded from the App Store about 3000 times.
