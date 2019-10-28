@@ -73,14 +73,41 @@ only with a page reload:
 </video>
 
 ## Remote Forms with Turbolinks
-When using Turbolinks, removing the page reload is as easy as removing `local: true`.
+When using Turbolinks, removing the page reload is as easy as removing `local: true` or 
+adding `remote: true`, in case you are using the `form_tag` or `form_for` helper or `simple_form_for` with the `simple_form` gem.
 The form will then be submitted remotely and turbolinks will handle the redirect.
 
 In an example as simple as this one, this is probably the best way, as no further 
-code changes are needed. 
+code changes are needed. But for each new message, the HTML for the complete page,
+including the new message, is sent from the server to the client. For a more
+complex page, sending just the parts that changed, in this case the new message,
+might be advantageous.
 
 
 ## Remote Forms with Stimulus
+With this approach, the controller will only return the rendered partial 
+of the new message:
+{% highlight ruby linenos=table %}
+class MessagesController < ApplicationController
+  def index
+    @messages = Message.all
+  end
+
+  def create
+    @message = Message.new(params.require(:message).permit(:content))
+    @message.save!
+    render @message
+  end
+end
+
+{% endhighlight %}
+app/controllers/messages_controller.rb
+{:.filename}
+
+Insertion of this partial has to be handeled manually, by listening to the 
+`ajax:success` and `ajax:error` events. You could just write some
+jquery to do this, but I'm using Stimulus to keep everything nice and organized.
+The view file setup to use a Stimulus controller looks as follows:
 {% highlight eruby linenos=table %}
 <h1>Messages</h1>
 
@@ -92,16 +119,35 @@ code changes are needed.
   <%= form_with(model: Message.new,
         data: { action: 'ajax:success->message-list#append' }
       ) do |form| %>
-
     <%= form.text_area :content, data: { target: 'message-list.input' } %>
-
-    <div>
-      <%= form.submit %>
-    </div>
+    <%= form.submit style: 'display: block' %>
   <% end %>
 </div>
 {% endhighlight %}
 app/views/messages/index.html.erb
 {:.filename}
 
+In this case, a Stimulus controller named `message-list` is used. It has a 
+`messages` target, which holds all the messages, and an `input` target which is
+the input field for new messages. When the `ajax:success` event is fired, the
+`append` method of the Stimulus controller is called.
 
+{% highlight js linenos=table %}
+import { Controller } from 'stimulus';
+
+export default class extends Controller {
+  static targets = ['input', 'messages'];
+
+  append(event) {
+    const [data, status, xhr] = event.detail;
+    this.messagesTarget.innerHTML += xhr.response;
+
+    this.inputTarget.value = '';
+  }
+}
+{% endhighlight %}
+app/javascript/controllers/message_list_controller.js
+{:.filename}
+
+The `append` method takes the returned partial of the new message and inserts
+it after the last message. Then it resets the input.
