@@ -10,13 +10,15 @@ comments: true
   <source src="/assets/remoteformsresult.mp4" type="video/mp4">
 </video>
 
-This post will show you how to submit a form in rails without a page reload.
-Two approaches are shown, one using Turbolinks and one using Stimulus.
+In Rails, forms can be submitted without a page reload by using remote forms.
+When using a remote form, Rails submits the form trough an ajax request. Any updates
+to displayed view, have then to be done with Javascript. This can either be
+automatically handled by Turbolinks or one can manually handle it by listening
+to the `ajax:success` and `ajax:error` events. This post shows both approaches and 
+specifically how to do the manual handling of the events with Stimulus.
 
-What is shown in the video can be achieved with remote forms in Rails.
-
-First, let's get this working without using a remote form, meaning that 
-there will be a page reload when the _Create Message_ button is pressed.
+But first, let's get the basics of what is shown in the video working without using a remote form, meaning that 
+there will be a page reload whenever a new message is inserted.
 
 The model used for this example is a `Message` model which has a column named 
 `content` to store the actual message. As seen in the video, the index view shows 
@@ -64,10 +66,10 @@ end
 app/controllers/messages_controller.rb
 {:.filename}
 
-When the _Create Message_ Button is pressed, the `create` action will be called.
-This creates a new messages and redirects to `messages_path`, which corresponds to
-the index page (the same page we were on). So now the functionality is there, but
-only with a page reload:
+When the _Create Message_ Button is pressed, a request is made, leading to the `create` action being called.
+This action creates a new message and redirects to `messages_path` so that the 
+index action is called and the same page, including the new message, is rendered again.
+So now the functionality is there, but only with a page reload:
 <video autoplay loop muted playsinline controls class="video-w80">
   <source src="/assets/remoteformsreload.mp4" type="video/mp4">
 </video>
@@ -104,10 +106,10 @@ end
 app/controllers/messages_controller.rb
 {:.filename}
 
-Insertion of this partial has to be handeled manually, by listening to the 
-`ajax:success` and `ajax:error` events. You could just write some
-jquery to do this, but I'm using Stimulus to keep everything nice and organized.
-The view file setup to use a Stimulus controller looks as follows:
+Insertion of this partial has to be handled manually, by listening to the 
+`ajax:success` event. You could just write some
+jQuery to do this, but I'm using Stimulus to keep everything nice and organized.
+The view file, when using the Stimulus controller looks as follows:
 {% highlight eruby linenos=table %}
 <h1>Messages</h1>
 
@@ -151,3 +153,51 @@ app/javascript/controllers/message_list_controller.js
 
 The `append` method takes the returned partial of the new message and inserts
 it after the last message. Then it resets the input.
+
+### Handling Errors
+To handle errors one can use a second partial to render an error message and
+listen for the `ajax:error` event. The updated controller looks as follows:
+
+{% highlight ruby linenos=table %}
+class MessagesController < ApplicationController
+  def index
+    @messages = Message.all
+  end
+
+  def create
+    @message = Message.new(params.require(:message).permit(:content))
+    if @message.save
+      render @message
+    else
+      render partial: 'error', comment: @comment, status: :bad_request
+    end
+  end
+end
+
+{% endhighlight %}
+app/controllers/messages_controller.rb
+{:.filename}
+
+And the view file like this:
+{% highlight eruby linenos=table %}
+<h1>Messages</h1>
+
+<div data-controller='message-list'>
+  <div data-target='message-list.messages'>
+    <%= render @messages %>
+  </div>
+
+  <%= form_with(model: Message.new,
+        data: { action: 'ajax:success->message-list#append 
+                         ajax:error->message-list#showError' }
+      ) do |form| %>
+    <%= form.text_area :content, data: { target: 'message-list.input' } %>
+    <%= form.submit style: 'display: block' %>
+  <% end %>
+</div>
+{% endhighlight %}
+app/views/messages/index.html.erb
+{:.filename}
+
+The Stimulus controller would then have a `showError` method, which would handle
+the insertion of the `error` partial.
