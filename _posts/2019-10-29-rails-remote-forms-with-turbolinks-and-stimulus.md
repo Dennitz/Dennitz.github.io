@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rails Remote Forms with Turbolinks and Stimulus"
-description: "This post shows how to submit a form without reloading the page using either Turbolinks or Stimulus."
+description: "How to submit a form in Rails without a page reload, using either Turbolinks or Stimulus."
 author: "Dennis Hellweg"
 comments: true
 ---
