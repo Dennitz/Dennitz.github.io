@@ -4,7 +4,11 @@ title: "About me"
 permalink: /aboutme/
 ---
 
-Hi, I'm Dennis Hellweg! I am a full-stack software engineer with experience in web development and cloud deployments. You can check out some of my publicly available [projects](/projects) or take a look at my [GitHub profile](https://github.com/Dennitz).
+Hi, my name is Dennis Hellweg and I'm a full-stack software engineer. Most of my working time is spent building things with Ruby on Rails. Besides that, I have used Javascript and Typescript quite a bit, together with React and React Native. 
+
+On the deployment side, I have used AWS and Heroku, have extensively worked with Docker and have some experience in using Kubernetes. 
+
+You can check out some of my [projects](/projects) or take a look at my [GitHub profile](https://github.com/Dennitz).
 
 ## Contact
 Need help building a new website? Neep help with your existing site? Or how about just a friendly chat?
