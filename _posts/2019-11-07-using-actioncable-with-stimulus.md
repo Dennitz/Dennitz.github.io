@@ -7,7 +7,7 @@ comments: true
 ---
 
 Action Cable integrates WebSocket functionalities into Rails. With the help of 
-Action Cable, one can update the page of a client without them making a request first.
+Action Cable, one can update the page of a browser client without the client making a request first.
 This comes in handy for all kind of real-time applications, for example chat apps
 or for notifications.
 
