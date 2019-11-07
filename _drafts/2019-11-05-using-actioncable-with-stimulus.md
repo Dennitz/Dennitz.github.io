@@ -7,32 +7,33 @@ comments: true
 ---
 
 Action Cable integrates WebSocket functionalities into Rails. With the help of 
-it, one can update the page of a client without them making a request first.
+Action Cable, one can update the page of a client without them making a request first.
 This comes in handy for all kind of real-time applications, for example chat apps
 or for notifications.
+
+By using Stimulus to grab the data that is sent by Action Cable, you get all the advantages
+that Stimulus provides, mainly readable and structured JavaScript.
+
 
 ## What we will build
 <video autoplay loop muted playsinline controls class="video">
   <source src="/assets/actioncable_stimulus_result.mp4" type="video/mp4">
 </video>
 
-The goal is to update the page for all clients whenever a new message is created by
+This is a simple example, where any connected browser client can create a new message.
+The goal is to update the page for all clients, whenever a new message is created by
 any of the clients. By using Action Cable, this can happen in real-time, without
 a page reload.
 
-By using Stimulus to grab data from Action Cable, you get all the advantages
-that Stimulus provide, mainly readable and structured Javascript.
-
-I will now show how to replace the javascript at `app/javascript/channels/message_channel.js` with a
-Stimulus controller.
-
 ## The Channel
 
-For this example a channel name `MessageChannel` is used. It can be generated
+For this example a channel name `MessageChannel` is used. The boilerplate for the
+channel can be generated with `rails generate channel Message`.
 
-By default, the channel generator in Rails 6 generates two files. For example if
-you want to generate a Message channel, you can run `rails generate channel Message`,
-which creates the files `app/channels/message_channel.rb` and `app/javascript/channels/message_channel.js`.
+In Rails 6 this creates two files, `app/channels/message_channel.rb` for server-side code
+and `app/javascript/channels/message_channel.js` for client-side code.
+
+For this example the `MessageChannel` sets up all subscribed clients to `stream_from 'message_channel'`.
 
 {% highlight ruby linenos=table %}
 class MessageChannel < ApplicationCable::Channel
@@ -48,6 +49,9 @@ end
 app/channels/message_channel.rb
 {:.filename}
 
+
+The following JavaScript file is generated. We will not use it though and instead 
+use a Stimulus controller for the client-side code.
 
 {% highlight js linenos=table %}
 import consumer from "./consumer"
@@ -68,6 +72,21 @@ consumer.subscriptions.create("MessagesChannel", {
 {% endhighlight %}
 app/javascript/channels/message_channel.js
 {:.filename}
+
+## The Stimulus Controller
+The Stimulus controller works similar to the one from the 
+[previous post]({% post_url 2019-10-29-rails-remote-forms-with-turbolinks-and-stimulus %}).
+It has an `input` target, which represents the form field to create a new message, and
+a `messages` target, which is the element containing all the messages.
+
+In the `connect` method the channel subscription is created, similar to how it is done 
+in the generated JavaScript file. For each of the `connected`, 
+`disconnected` and `received` methods, a class method is defined on the Stimulus
+controller and passed in when creating the subscription.
+
+The `received` method is the only one that is actually used in this example. It
+is supposed to be called with an object that contains a new *rendered* message
+on the `message` key, which is then appended to the `messagesTarget`.
 
 {% highlight js linenos=table %}
 import { Controller } from 'stimulus';
@@ -105,6 +124,35 @@ export default class extends Controller {
 app/javascript/controllers/message_list_controller.js
 {:.filename}
 
+This Stimulus controller is used in the index view, the view that is shown in the
+video. It sets up the required targets and adds an action to clear the input
+after successful form submission.
+
+{% highlight eruby linenos=table %}
+<h1>Messages</h1>
+
+<div data-controller='message-list'>
+  <div data-target='message-list.messages'>
+    <%= render @messages %>
+  </div>
+
+  <%= form_with(model: Message.new,
+                data: { action: 'ajax:success->message-list#clearInput' }
+      ) do |form| %>
+
+    <%= form.text_area :content, data: { target: 'message-list.input' } %>
+    <%= form.submit style: 'display: block' %>
+  <% end %>
+</div>
+{% endhighlight %}
+app/views/messages/index.html.erb
+{:.filename}
+
+## Adding a New Message
+
+When the form is submitted to create a new message, the `create` action of the
+`MessagesController` is called. 
+
 {% highlight ruby linenos=table %}
 class MessagesController < ApplicationController
   def index
@@ -122,22 +170,11 @@ end
 app/controllers/messages_controller.rb
 {:.filename}
 
-{% highlight eruby linenos=table %}
-<h1>Messages</h1>
+It first creates a new message and saves it. Then to update the page on all clients,
+a broadcast on the `message_channel` is made on line 9. There, the rendered message partial is
+sent along under the `message` key. This will in turn call the `_cableReceived` method 
+of the aforementioned Stimulus controller on all subscribed clients.
 
-<div data-controller='message-list' data-message-list-user='1'>
-  <div data-target='message-list.messages'>
-    <%= render @messages %>
-  </div>
+The controller then simply responds with `head :ok` as no redirect has to be made
+and nothing has to be rendered.
 
-  <%= form_with(model: Message.new,
-                data: { action: 'ajax:success->message-list#clearInput' }
-      ) do |form| %>
-
-    <%= form.text_area :content, data: { target: 'message-list.input' } %>
-    <%= form.submit style: 'display: block' %>
-  <% end %>
-</div>
-{% endhighlight %}
-app/views/messages/index.html.erb
-{:.filename}
