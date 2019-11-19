@@ -16,7 +16,7 @@ that Stimulus provides, mainly readable and structured JavaScript.
 
 
 ## What we will build
-<video autoplay loop muted playsinline controls class="video">
+<video autoplay loop muted playsinline controls class="video shadow">
   <source src="/assets/actioncable_stimulus_result.mp4" type="video/mp4">
 </video>
 

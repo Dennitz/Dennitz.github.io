@@ -6,7 +6,7 @@ author: "Dennis Hellweg"
 comments: true
 ---
 
-<video autoplay loop muted playsinline controls class="video-w80">
+<video autoplay loop muted playsinline controls class="video-w80 shadow">
   <source src="/assets/remoteformsresult.mp4" type="video/mp4">
 </video>
 
