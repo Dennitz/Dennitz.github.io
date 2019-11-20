@@ -22,7 +22,7 @@ pre code {
   padding: 0;
 }
 
-.highlight {
+.highlight  {
   border-top: 1px solid $grey-2;
   border-left: 1px solid $grey-2;
   border-right: 1px solid $grey-2;
@@ -50,6 +50,18 @@ pre code {
     -moz-user-select: none;
     user-select: none;
   }
+}
+
+div.highlight {
+  border: 1px solid $grey-2;
+  border-radius: 3px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+pre.highlight {
+  border: none;
+  border-radius: none;
 }
 
 .filename {
