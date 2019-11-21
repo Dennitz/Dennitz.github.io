@@ -6,14 +6,19 @@ author: "Dennis Hellweg"
 comments: true
 ---
 
+Custom attachments allow you to insert partials of your models inside Action Text documents.
+This can be helpful when implementing @mentions or if you want to highlight some of your products 
+in a blog post for example.
+
+
 You can find the code at [https://github.com/Dennitz/ActionTextAttachments](https://github.com/Dennitz/ActionTextAttachments)
 
-
 ## What we will build
-In this post you will learn how to insert custom attachments in Action Text.
-This allows to use your models and render their partials inside Action Text documents.
-That is useful for example to do @mentions or to highlight some products as seen in the 
-following video:
+We will build a simple project with a `Post` and a `Product` model. The `Post`
+model has an Action Text document, in which we'd like to be able to insert a `Product`. 
+More specifically, it should be possible to show the rendered partial
+of a `Product` inside the Action Text document. The result looks like this:
+
 <video autoplay loop muted playsinline controls class="video-w80 shadow">
   <source src="/assets/action_text_attachments.mp4" type="video/mp4">
 </video>
@@ -45,15 +50,8 @@ Secondly, create the `Product` scaffold:
 rails generate scaffold Product name:string 'price:decimal{8,2}'
 ```
 
-The goal is to be able to include an instance of `Product` as a custom attachment
-in the Action Text `content` of `Post`.
-
-Action Text does not store the HTML of a custom attachment. Instead it re-renders
-the model's partial everytime. Because of this, updates to a attached model
-are reflected in the Action Text document. To identify attachments and their models, Action Text uses Signed Global IDs (*sgid*).
-As a result, models used in custom attachments need to have an `attachable_sgid` method. 
-
-The `attachable_sgid` method can be made available on the `Product` model by including
+To be able to use a model for custom attachments, the model must have the `attachable_sgid`
+method. So let's make it available on the `Product` model by including
 `ActionText::Attachable`:
 
 {% highlight ruby linenos=table %}
@@ -66,15 +64,19 @@ end
 app/models/product.rb
 {:.filename}
 
+The `attachable_sgid` method is needed because Action Text uses Signed Global IDs (*sgid*) to identify attachments and their models.
+By using the sgid, Action Text can re-render the model's partial every time, instead of just storing its HTML. Because of this, updates to an attached model
+are reflected in the Action Text document. 
+
 ## The Form
 
-The post form calls `form.rich_text_area` to create the Action Text input. Below that it
+The `Post` form calls `form.rich_text_area` to create the Action Text input. Below that it
 has a Bootstrap dropdown, which includes a button for each product name. Each of
-those buttons has the product's id added to the button's dataset, so that the id
+those buttons has the product's id added to the button's dataset so that the id
 can be used in JavaScript code.
 
-The form is connected to the `attachments` Stimulus contoller, which is used to insert
-the custom attachment whenever of the buttons in the dropdown is clicked. 
+The form is connected to the `attachments` Stimulus controller, which is used to insert
+the custom attachment whenever one of the buttons in the dropdown is clicked. 
 
 {% highlight eruby linenos=table %}
 <%= form_with(model: post, local: true, 
@@ -112,7 +114,7 @@ app/views/posts/_form.html.erb
 {:.filename}
 
 In a real project, instead of using a dropdown to show all product names, you
-can for example do an autocomplete search through all the models you might want
+can, for example, do an autocomplete search through all the models you might want
 to include in an Action Text document.
 
 ## The Stimulus Controller
@@ -178,16 +180,43 @@ json.content render(
 app/views/products/_product.json.jbuilder
 {:.filename}
 
-This will include the `sgid` of the product and the rendered HTML partial of
-the product in the json response.
+This will include the `sgid` of the product and store the rendered HTML partial of
+the product under the `content` key.
 
-Note that this partial is only shown when first inserted as an attachment by the
-Stimulus controller. On subsequent renders, Action Text will use the sgid to
+Next, a `Trix.Attachment` is created in the Stimulus controller using the fetched
+sgid and content. This attachment is then inserted into the editor, which will
+then show the HTML stored under the `content` key.
+
+Note that this HTML partial is only shown when first inserted as an attachment. 
+On subsequent renders, Action Text will use the sgid to
 figure out that it is working with a `Product` and thus has to render the
 `products/product` partial. This ensures that it will always show 
 up-to-date data and allows updates to a product to be reflected in the Action Text
 document automatically.
 
+## Styling
+Custom CSS may be needed for elements inside an Action Text document. The content
+of an Action Text document is wrapped with the `.trix-content` class, so other CSS
+can be scoped under this class, e.g.
+{% highlight scss linenos=table %}
+.trix-content {
+  .card {
+    max-width: 14rem;
+    display: inline-block;
+  }
+}
+{% endhighlight %}
+app/assets/stylesheets/actiontext.scss
+{:.filename}
 
-## Handling Adjacent Attachments
-// Trix.config.attachments.content = { presentation: 'gallery' }
+
+## Grouping Attachments
+When images are placed side by side in an Action Text document, the image attachments
+are grouped with a surrounding *div* that has the `.attachment-gallery` class. By
+default, custom attachments are not grouped in a surrounding div.
+
+If you want them to be grouped, you have to adjust Trix's config by calling:
+```js
+Trix.config.attachments.content = { presentation: 'gallery' }
+```
+This can, for example, be done in the `connect` method of the Stimulus controller.
