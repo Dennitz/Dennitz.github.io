@@ -1,23 +1,22 @@
 ---
 layout: post
 title:  "Custom Attachments in Action Text"
-description: ""
+description: "How to use your own models as attachments in Action Text with Rails 6."
 author: "Dennis Hellweg"
 comments: true
 ---
 
-Custom attachments allow you to insert partials of your models inside Action Text documents.
+Custom attachments allow you use your own models as attachments in Action Text documents.
 This can be helpful when implementing @mentions or if you want to highlight some of your products 
 in a blog post for example.
 
-
-You can find the code at [https://github.com/Dennitz/ActionTextAttachments](https://github.com/Dennitz/ActionTextAttachments)
+You can find the code for this post at [https://github.com/Dennitz/ActionTextAttachments](https://github.com/Dennitz/ActionTextAttachments)
 
 ## What we will build
 We will build a simple project with a `Post` and a `Product` model. The `Post`
 model has an Action Text document, in which we'd like to be able to insert a `Product`. 
-More specifically, it should be possible to show the rendered partial
-of a `Product` inside the Action Text document. The result looks like this:
+More specifically, it should be possible to show the `products/product` partial
+inside the Action Text document. The result looks like this:
 
 <video autoplay loop muted playsinline controls class="video-w80 shadow">
   <source src="/assets/action_text_attachments.mp4" type="video/mp4">
