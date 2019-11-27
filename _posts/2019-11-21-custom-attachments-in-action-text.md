@@ -7,8 +7,8 @@ comments: true
 ---
 
 Custom attachments allow you use your own models as attachments in Action Text documents.
-This can be helpful when implementing @mentions or if you want to highlight some of your products 
-in a blog post for example.
+This, for example, can be helpful when implementing @mentions or if you want to highlight some of your products 
+in a blog post.
 
 You can find the code for this post at [https://github.com/Dennitz/ActionTextAttachments](https://github.com/Dennitz/ActionTextAttachments)
 
