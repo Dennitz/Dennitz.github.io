@@ -212,7 +212,7 @@ app/assets/stylesheets/actiontext.scss
 ## Grouping Attachments
 When images are placed side by side in an Action Text document, the image attachments
 are grouped with a surrounding *div* that has the `.attachment-gallery` class. By
-default, custom attachments are not grouped in a surrounding div.
+default, custom attachments are not grouped in a surrounding *div*.
 
 If you want them to be grouped, you have to adjust Trix's config by calling:
 ```js
