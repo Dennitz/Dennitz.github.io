@@ -184,7 +184,7 @@ the product under the `content` key.
 
 Next, a `Trix.Attachment` is created in the Stimulus controller using the fetched
 sgid and content. This attachment is then inserted into the editor, which will
-then show the HTML stored under the `content` key.
+then show the HTML that was stored under the `content` key.
 
 Note that this HTML partial is only shown when first inserted as an attachment. 
 On subsequent renders, Action Text will use the sgid to
