@@ -4,6 +4,10 @@ title: "About me"
 permalink: /aboutme/
 ---
 
+<a href="/assets/profile.jpg">
+  ![Profile picture](/assets/profile-small.jpg){:.profile-image}
+</a>
+
 Hi, my name is Dennis Hellweg and I'm a full-stack software engineer. Most of my working time is spent building things with Ruby on Rails. Besides that, I have used Javascript and Typescript quite a bit, together with React and React Native. 
 
 On the deployment side, I have used AWS and Heroku, have extensively worked with Docker and have some experience in using Kubernetes. 
