@@ -20,7 +20,6 @@ footer,
   &-container {
     margin: 1rem auto;
     position: relative;
-    text-align: center;
   }
 
   &-title {
@@ -46,9 +45,8 @@ footer,
   li {
     @include transition(all 0.2s ease-out);
     color: $default-color;
-    display: inline-block;
     opacity: 0.6;
-    padding: 0 2rem 0 0;
+    padding: 0.5rem 0 0.5rem 0;
 
     &:last-child {
       padding-right: 0;
@@ -77,6 +75,11 @@ footer,
       position: absolute;
       right: 0;
     }
+
+    li {
+      display: inline-block;
+      padding: 0 2rem 0 0;
+    }
   }
 }
 
@@ -94,5 +97,176 @@ footer {
   .copyright {
     // color: $default-color;
     font-size: 0.8rem;
+  }
+}
+
+/* header */
+
+.header {
+  // background-color: #fff;
+  // position: fixed;
+  // box-shadow: 0 2px 2px -2px $shadow-color;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.header {
+  width: 100%;
+  z-index: 3;
+
+  .nav-title {
+    @include transition(all 0.2s ease-out);
+    color: $default-color;
+    display: inline-block;
+    margin: 0;
+    padding-right: 0.2rem;
+
+    &:hover,
+    &:focus {
+      opacity: 0.6;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    // margin: 1rem 0 0;
+    padding: 0;
+    text-align: center;
+
+    @media (max-width: 48em) {
+      margin-top: 1rem;
+    }
+  }
+
+  li {
+    @include transition(all 0.2s ease-out);
+    color: $default-color;
+    opacity: 0.6;
+    padding: 0.8rem 0 0.8rem 0;
+
+    @media (min-width: 48em) {
+      padding: 0 1rem 0 1rem;
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  a {
+    color: $default-color;
+    font-family: $sans-serif;
+  }
+}
+
+.header .logo {
+  display: block;
+  float: left;
+  font-size: 2em;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+/* menu */
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
+}
+
+/* menu icon */
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  padding: 14px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.header .menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  transition: background 0.2s ease-out;
+  width: 18px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all 0.2s ease-out;
+  width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+  top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  /* .header li a {
+    padding: 20px 30px;
+  } */
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
   }
 }

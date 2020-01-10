@@ -1,4 +1,4 @@
-<nav class="nav">
+<!-- <nav class="nav">
   <div class="nav-container">
     <a href="{{ site.baseurl }}/">
       <h3 class="nav-title">{{ site.title }}</h2>
@@ -9,4 +9,19 @@
       <li><a href="{{ site.baseurl }}/">Posts</a></li>
     </ul>
   </div>
-</nav>
+</nav> -->
+
+<header class="header">
+  <div class="nav-container">
+    <a href="{{ site.baseurl }}/">
+      <h3 class="nav-title">{{ site.title }}</h2>
+    </a>
+    <input class="menu-btn" type="checkbox" id="menu-btn" />
+    <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    <ul class="menu">
+      <li><a href="{{ '/aboutme' | prepend: site.baseurl }}">About me / contact</a></li>
+      <li><a href="{{ '/projects' | prepend: site.baseurl }}">Projects</a></li>
+      <li><a href="{{ site.baseurl }}/">Posts</a></li>
+    </ul>
+  </div>
+</header>
