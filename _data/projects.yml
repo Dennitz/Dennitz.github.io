@@ -14,7 +14,7 @@
   alt: SpotMatters
   description: 
     <p>
-      <spotmatters.co (discontinued) is an easy way to find surfspots that are suitable when travelling in a van. 
+      spotmatters.co (discontinued) is an easy way to find surfspots that are suitable when travelling in a van. 
     </p>
     <p>
       I created all the content and built the site in Ruby on Rails using Bootstrap for styling. The site is deployed on Heroku.
